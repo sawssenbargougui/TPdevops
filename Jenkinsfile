@@ -3,7 +3,7 @@ pipeline {
     environment { DOCKER_TAG = getVersion()}
     stages {
         stage ('Clone Stage') {
-            steps { git https://gitlab.com/jmlhmd/datacamp_docker_angular.git}
+            steps { git 'https://gitlab.com/jmlhmd/datacamp_docker_angular.git'}
         }
     }
 }
