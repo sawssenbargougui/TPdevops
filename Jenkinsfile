@@ -13,7 +13,7 @@ pipeline {
         stage ('Docker Build') {
             steps {
                 sh 'sudo docker build -t jmlhmd/image_name:${DOCKER_TAG} .'
-                sh 'sudo docker run -p 8888:80 jmlhmd/image_name:${DOCKER_TAG}'
+                sh 'sudo docker run -d -p 8888:80 jmlhmd/image_name:${DOCKER_TAG}'
             }
         }
         stage ('DockerHub Push') {
@@ -29,7 +29,7 @@ pipeline {
                 sshagent(credentials: ['Vagrant_ssh']) {
                     sh "ssh vagrant@192.168.1.201"
                     //sh "scp target/hello-world-app-1.0-SNAPSHOT.jar vagrant@192.168.1.201:/home/vagrant"
-                    sh "ssh vagrant@192.168.1.201 'sudo docker run "jmlhmd/image_name:${DOCKER_TAG}"'"
+                    sh "ssh vagrant@192.168.1.201 'sudo docker run -d -p 8888:80 "jmlhmd/image_name:${DOCKER_TAG}"'"
                 }
             }
         }
