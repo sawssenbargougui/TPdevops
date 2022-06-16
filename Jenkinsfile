@@ -18,7 +18,7 @@ pipeline {
         }
         stage ('DockerHub Push') {
             steps {
-                withCredentials([string(credentialsId: 'mydockerhubpassword', variable: 'DockerHubPassword')]) {
+                withCredentials([string(credentialsId: '454ae11c-3164-41a0-a219-294a7d78c8ce', variable: 'DockerHubPassword')]) {
                 sh 'sudo docker login -u jmlhmd -p ${DockerHubPassword}'
                 }
                 sh 'sudo docker push jmlhmd/image_name:${DOCKER_TAG}'
