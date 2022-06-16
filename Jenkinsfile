@@ -10,6 +10,11 @@ pipeline {
                 sh 'echo $DOCKER_TAG'
             }
         }
+        stage ('Docker Build') {
+            steps {
+                sh 'sudo docker build -t jmlhmd/image_name:${DOCKER_TAG} .'
+            }
+        }
     }
 }
 def getVersion(){
