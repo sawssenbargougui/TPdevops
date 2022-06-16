@@ -5,8 +5,10 @@ pipeline {
     }
     stages {
         stage ('Clone Stage') {
-            steps { git 'https://gitlab.com/jmlhmd/datacamp_docker_angular.git'}*
-            sh echo $DOCKER_TAG
+            steps { 
+                git 'https://gitlab.com/jmlhmd/datacamp_docker_angular.git'
+                sh 'echo $DOCKER_TAG'
+            }
         }
     }
 }
