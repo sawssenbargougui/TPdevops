@@ -12,8 +12,8 @@ pipeline {
         }
         stage ('Docker Build') {
             steps {
-                sh 'sudo docker build -t jmlhmd/image_name:${DOCKER_TAG} .'
-               // sh 'sudo docker run -d -p 8888:80 jmlhmd/image_name:${DOCKER_TAG}'
+                sh 'docker build -t jmlhmd/image_name:${DOCKER_TAG} .'
+               // sh 'docker run -d -p 8888:80 jmlhmd/image_name:${DOCKER_TAG}'
             }
         }
         stage ('DockerHub Push') {
