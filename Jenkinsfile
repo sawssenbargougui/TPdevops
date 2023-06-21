@@ -20,9 +20,9 @@ pipeline {
             steps {
             
             withCredentials([string(credentialsId: 'dockerhubpwd', variable: 'DockerPWD')]) {
-                 sh 'sudo docker login -u jmlhmd -p ${DockerPWD}'
+                 sh 'docker login -u jmlhmd -p ${DockerPWD}'
             }
-                sh 'sudo docker push jmlhmd/image_name:${DOCKER_TAG}'
+                sh 'docker push jmlhmd/image_name:${DOCKER_TAG}'
             }
         }
         stage ('Deploy') {
@@ -30,7 +30,7 @@ pipeline {
                 sshagent(credentials: ['VagrantSlaveVM']) {
                     sh "ssh vagrant@192.168.1.144"
                     //sh "scp target/hello-world-app-1.0-SNAPSHOT.jar vagrant@10.40.31.201:/home/vagrant"
-                    sh "ssh vagrant@192.168.1.144 'sudo docker run -d -p 8888:80 jmlhmd/image_name:${DOCKER_TAG}'"
+                    sh "ssh vagrant@192.168.1.144 'docker run -d -p 8888:80 jmlhmd/image_name:${DOCKER_TAG}'"
                 }
             }
         }
