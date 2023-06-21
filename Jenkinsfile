@@ -13,23 +13,24 @@ pipeline {
         stage ('Docker Build') {
             steps {
                 sh 'sudo docker build -t jmlhmd/image_name:${DOCKER_TAG} .'
-                sh 'sudo docker run -d -p 8888:80 jmlhmd/image_name:${DOCKER_TAG}'
+               // sh 'sudo docker run -d -p 8888:80 jmlhmd/image_name:${DOCKER_TAG}'
             }
         }
         stage ('DockerHub Push') {
             steps {
-                withCredentials([string(credentialsId: '454ae11c-3164-41a0-a219-294a7d78c8ce', variable: 'DockerHubPassword')]) {
-                sh 'sudo docker login -u jmlhmd -p ${DockerHubPassword}'
-                }
+            
+            withCredentials([string(credentialsId: 'dockerhubpwd', variable: 'DockerPWD')]) {
+                 sh 'sudo docker login -u jmlhmd -p ${DockerPWD}'
+            }
                 sh 'sudo docker push jmlhmd/image_name:${DOCKER_TAG}'
             }
         }
         stage ('Deploy') {
             steps{
-                sshagent(credentials: ['Vagrant_ssh']) {
-                    sh "ssh vagrant@10.40.31.201"
+                sshagent(credentials: ['VagrantSlaveVM']) {
+                    sh "ssh vagrant@192.168.1.144"
                     //sh "scp target/hello-world-app-1.0-SNAPSHOT.jar vagrant@10.40.31.201:/home/vagrant"
-                    sh "ssh vagrant@10.40.31.201 'sudo docker run -d -p 8888:80 jmlhmd/image_name:${DOCKER_TAG}'"
+                    sh "ssh vagrant@192.168.1.144 'sudo docker run -d -p 8888:80 jmlhmd/image_name:${DOCKER_TAG}'"
                 }
             }
         }
