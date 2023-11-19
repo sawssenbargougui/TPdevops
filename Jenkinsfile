@@ -12,7 +12,7 @@ pipeline {
         }
         stage ('Docker Build') {
             steps {
-                sh 'sudo docker build -t jmlhmd/image_name:${DOCKER_TAG} .'
+                sh 'docker build -t jmlhmd/image_name:${DOCKER_TAG} .'
                // sh 'docker run -d -p 8888:80 jmlhmd/image_name:${DOCKER_TAG}'
             }
         }
@@ -20,9 +20,9 @@ pipeline {
             steps {
             
         withCredentials([string(credentialsId: '68095310-5de9-4e44-bc26-90034a3261cf', variable: 'DockerPWD')]) {
-                 sh 'sudo docker login -u jmlhmd -p ${DockerPWD}'
+                 sh 'docker login -u jmlhmd -p ${DockerPWD}'
             }
-                sh 'sudo docker push jmlhmd/image_name:${DOCKER_TAG}'
+                sh 'docker push jmlhmd/image_name:${DOCKER_TAG}'
             }
         }
         stage ('Deploy') {
