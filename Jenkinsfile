@@ -27,12 +27,12 @@ pipeline {
         }
         stage ('Deploy') {
             steps{
-               //sshagent(credentials: ['Vagrant_ssh']) { 
+               sshagent(credentials: ['Vagrant_ssh']) { 
                   //  sh "ssh -tt jenkins@192.168.1.144"
                     //sh "scp target/hello-world-app-1.0-SNAPSHOT.jar vagrant@10.40.31.201:/home/vagrant"
                     sh "ssh vagrant@192.168.1.101 'docker run -d -p 8888:80 jmlhmd/image_name:${DOCKER_TAG}'"
                 
-           // }
+            }
             }
         }
     }
