@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+    tools { 
+        jdk 'JDK8' 
+    }
+    environment {
+        JAVA_HOME = 'C:\Program Files\java\jdk-17'
+        DOCKER_TAG = getVersion()
+    }
+    stages {
+        stage('Clone Stage') {
+            steps {
+                git 'https://gitlab.com/jmlhmd/datacamp_docker_angular.git'
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t jmlhmd/image_name:${DOCKER_TAG} .'
+            }
+        }
+    }
+}
+
+def getVersion() {
+    def version = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+    return version
+}
